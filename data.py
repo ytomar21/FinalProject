@@ -20,17 +20,14 @@ import matplotlib.pyplot as plt
         labels (DataFrame): labels of data
 
 '''
-def data_loader(file, encoder, label):
+def data_loader(file, encoder):
 
     # Import Dataset
-    df = pd.read_csv(file, na_values=['Unknown', 'No Value'])
-    df = df.drop([])
+    df = pd.read_csv(file)
 
     # Separate Labels and Categorical Features
-    labels = df[label]
-    categorical_feats = ['year', 'zip_code', 'city', 'state', 'climate', 'building_class', 'facility_type', 'year_built',
-                         'operating_hours','lighting','air_flow_control','heating','heating_fuel','cooling','wall_type',
-                         'wall_insulation_r_value','roof_ceiling']
+    labels = df["site_eui"]
+    categorical_feats = ['State_Factor','building_class', 'facility_type']
 
     #Encode all Categorical Features
     df[categorical_feats] = df[categorical_feats].apply(encoder.fit_transform)
@@ -38,8 +35,6 @@ def data_loader(file, encoder, label):
     #Replace all "Unknown" and "No Value" into -1
     df = df.fillna(-1)
     labels = labels.fillna(-1)
-
-    df = df.iloc[:, :-6]
 
     return df, labels
 
@@ -68,11 +63,10 @@ def data_visualization(file):
 
 
 #Initialize Variables for Data Loading
-file = "Data/Los Angeles Benchmarking Ordinance.csv"
+file = "Data/train.csv"
 encoder = LabelEncoder()
-label = "site_eui"
 
-df, labels = data_loader(file, encoder, label)
+df, labels = data_loader(file, encoder)
 
 #Split dataset into train and test
 X_train, X_test, y_train, y_test = train_test_split(df, labels, test_size=0.2)
