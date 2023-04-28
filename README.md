@@ -14,10 +14,11 @@ The goal of our system is to provide insight into energy usage and predict futur
 
 The dataset we used was from the UCI website (https://archive.ics.uci.edu/ml/datasets/individual+household+electric+power+consumption) that included time series data over 4 years of energy usage from a house in France. It has four main energy detailed columns and three columns that showed how different parts of the house used that energy. The reason we chose to use this case study of a dataset is because we felt that it captures what our team envisioned the data to look like for our system to work off of. If this were to be implemented in the real world, we would expect the data to be similar to the one shown here.
 
-| Date | Time | Global Active Power | Global Reactive Power | Voltage | Current | Sub-Meetering 1 | Sub-Meetering 2 | Sub-Meetering 3 |
+| Date | Time | Global Active Power | Global Reactive Power | Voltage | Current | Sub-Metering 1 | Sub-Metering 2 | Sub-Metering 3 |
 | :--- | :--: | :------------------ | :-------------------- | :------ | :------ | :-------------- | :-------------- | :-------------- |
 
 The 3 different Sub-Meetering columns tells us the energy expenditure on those 3 zones of the household.
+Note that Global Active Power is measured in kilowatts, whereas the sub-metering 1,2, and 3 are all measured in watt-hours. Sub-metering 1 corresponds to the kitchen, sub-metering 2 corresponds to the laundry room, and sub-metering 3 corresponds to the electric water-heater and air conditioner.
 
 ## Preprocessing
 
