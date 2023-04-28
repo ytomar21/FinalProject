@@ -18,7 +18,7 @@ The dataset we used was from the UCI website (https://archive.ics.uci.edu/ml/dat
 | :--- | :--: | :------------------ | :-------------------- | :------ | :------ | :-------------- | :-------------- | :-------------- |
 
 The 3 different Sub-Meetering columns tells us the energy expenditure on those 3 zones of the household.
-Note that Global Active Power is measured in kilowatts, whereas the sub-metering 1,2, and 3 are all measured in watt-hours. Sub-metering 1 corresponds to the kitchen, sub-metering 2 corresponds to the laundry room, and sub-metering 3 corresponds to the electric water-heater and air conditioner.
+Note that Global Active Power is measured in kilowatts, whereas the sub-metering 1,2, and 3 are all measured in watt-hours. Sub-metering 1 corresponds to the kitchen, sub-metering 2 corresponds to the laundry room, and sub-metering 3 corresponds to the electric water-heater and air conditioner. The other columns were not used in the modeling for the sake of scope.
 
 ## Preprocessing
 
