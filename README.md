@@ -119,7 +119,8 @@ lstm_history = lstm_model.fit(X_train, Y_train, epochs=num_epochs, batch_size=ba
 
 ## How to use
 
-Since we made our system on a specific dataset, there isn't much in terms of how to use it. Simply run each cell one at a time. The only things that you might change are the file locations of the dataset and where to store the model once it has completed training. If you wish to use another dataset, then the data should be similarly formatted to the one provided.
+Since we made our system on a specific dataset, there isn't much in terms of how to use it. Extract the dataset from the zip file.
+Simply run each cell one at a time. The only things that you might change are the file locations of the dataset and where to store the model once it has completed training. If you wish to use another dataset, then the data should be similarly formatted to the one provided.
 
 ## Evaluation
 
