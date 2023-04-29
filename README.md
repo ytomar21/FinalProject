@@ -14,8 +14,8 @@ The goal of our system is to provide insight into energy usage and predict futur
 
 The dataset we used was from the UCI website (https://archive.ics.uci.edu/ml/datasets/individual+household+electric+power+consumption) that included time series data over 4 years of energy usage from a house in France. It has four main energy detailed columns and three columns that showed how different parts of the house used that energy. The reason we chose to use this case study of a dataset is because we felt that it captures what our team envisioned the data to look like for our system to work off of. If this were to be implemented in the real world, we would expect the data to be similar to the one shown here.
 
-| Date | Time | Global Active Power | Global Reactive Power | Voltage | Current | Sub-Metering 1 | Sub-Metering 2 | Sub-Metering 3 |
-| :--- | :--: | :------------------ | :-------------------- | :------ | :------ | :-------------- | :-------------- | :-------------- |
+| Date | Time | Global Active Power | Global Reactive Power | Global Intenstity | Current | Sub-Metering 1 | Sub-Metering 2 | Sub-Metering 3 |
+| :--- | :--: | :------------------ | :-------------------- | :---------------- | :------ | :------------- | :------------- | :------------- |
 
 The 3 different Sub-Meetering columns tells us the energy expenditure on those 3 zones of the household.
 Note that Global Active Power is measured in kilowatts, whereas the sub-metering 1,2, and 3 are all measured in watt-hours. Sub-metering 1 corresponds to the kitchen, sub-metering 2 corresponds to the laundry room, and sub-metering 3 corresponds to the electric water-heater and air conditioner. The other columns were not used in the modeling for the sake of scope.
@@ -23,9 +23,9 @@ Note that Global Active Power is measured in kilowatts, whereas the sub-metering
 ## Preprocessing
 
 We decided to exclude three of the four energy detailed columns since those columns seemed to describe the same thing but in different ways; we focused on the "Global Active Power" column. Some of the data ended up missing (had ? or 'NA' in place of numbers) so we had to cut out the rows that included any missing data.
-We formatted 'Date' and 'Time' columns to a single 'date_time'. For our project we are using: 'date_time', 'Global_active_power', 'year', 'quarter', 'month', 'day', 'Sub_metering_1', 'Sub_metering_2', ‘Sub_metering_3’.
+We formatted 'Date' and 'Time' columns to a single 'date_time'. For our project we are using: 'date_time', 'Global_active_power', 'year', 'month', 'Sub_metering_1', 'Sub_metering_2', ‘Sub_metering_3’.
 
-![alt text](images/proc_data.png)
+![alt text](images/proc_data1.png)
 
 ## Visualizing
 
@@ -42,26 +42,26 @@ Since we are mostly focusing on the subzones of a building, we decided to plot t
 Using the `pandas` library, we load the UCI dataset from a text file and then convert the date and time columns as detailed earlier. Then, using an 80/20 test/train split, we train over 3 epochs using the `LSTM` model from the `keras` library.
 
 ```python
-#Transform the Global_active_power column of the data DataFrame into a numpy array of float values
-
+# Transform the Global_active_power column of the data DataFrame into a numpy array of float values
 dataset = df[['Global_active_power','Sub_metering_1', 'Sub_metering_2', 'Sub_metering_3']]
-dataset['Sub_metering_1']
-#Reshape the numpy array into a 2D array with 1 column
 
-dataset = dataset.astype('float32').to_numpy()
-
-#Create an instance of the MinMaxScaler class to scale the values between 0 and 1
-
+# Scale the values between 0 and 1
 scaler = MinMaxScaler(feature_range=(0, 1))
-#Fit the MinMaxScaler to the transformed data and transform the values
 
+# Fit the MinMaxScaler to the transformed data and transform the values
 dataset = scaler.fit_transform(dataset)
-#Split the transformed data into a training set (80%) and a test set (20%)
 
+# Split the transformed data into a training set (80%) and a test set (20%)
 train_size = int(len(dataset) * 0.80)
-val_size = int(train_size*.70)
+val_size = int(train_size*.70) #Splits train into 70-30, 70->actual train, 30->validation
 test_size = len(dataset) - train_size
+
+# Based on the constructed sizes, separate the train, validation, and test datasets
 train, val, test = dataset[0:val_size,:], dataset[val_size:train_size], dataset[train_size:len(dataset),:]
+
+print(f'train: {train.shape}')
+print(f'val: {val.shape}')
+print(f'test: {test.shape}')
 
 ```
 
@@ -120,7 +120,7 @@ lstm_history = lstm_model.fit(X_train, Y_train, epochs=num_epochs, batch_size=ba
 
 ## How to use
 
-Since we made our system on a specific dataset, there isn't much in terms of how to use it. Extract the dataset from the zip file.
+Since we made our system on a specific dataset, there isn't much in terms of how to use it. Extract the dataset from the zip file. Next in your code cell to read the dataset insert the path file for the dataset that was extracted.
 Simply run each cell one at a time. The only things that you might change are the file locations of the dataset and where to store the model once it has completed training. If you wish to use another dataset, then the data should be similarly formatted to the one provided.
 
 ## Evaluation
